@@ -1,2 +1,2 @@
 # android_class_270
-android class basic in NTU
+android tutorial for class 270
