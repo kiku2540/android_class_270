@@ -27,7 +27,7 @@
         android:textSize="22dp"
         android:textColor="#2da879"
         android:onClick="submit"
-        android:background="@drawable/images"
+        android:background="@drawable/button"
         android:layout_below="@+id/radioGroup" />
 
     <EditText
