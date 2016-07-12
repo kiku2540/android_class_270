@@ -47,18 +47,19 @@
         android:layout_below="@+id/editText">
 
         <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="male"
+            android:layout_width="111dp"
+            android:layout_height="115dp"
             android:id="@+id/maleRadioButton"
-            android:checked="true" />
+            android:checked="true"
+            android:drawableRight="@drawable/boy1"
+            />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="female"
             android:id="@+id/femaleRadioButton"
-            android:checked="false" />
+            android:checked="false"
+            android:drawableRight="@drawable/girl1" />
     </RadioGroup>
 
 </RelativeLayout>
