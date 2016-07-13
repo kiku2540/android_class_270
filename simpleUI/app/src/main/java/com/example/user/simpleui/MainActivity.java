@@ -4,15 +4,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
+
+import java.lang.reflect.Array;
 
 public class MainActivity extends AppCompatActivity {
     TextView textView;
     EditText editText;
     RadioGroup radioGroup;
+    ListView listView;
+    Spinner spinner;
 
     String selectedTea="black tea";
 
@@ -25,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
         textView = (TextView)findViewById(R.id.textView);
         editText = (EditText)findViewById(R.id.editText);
         radioGroup = (RadioGroup)findViewById(R.id.radioGroup);
+        listView = (ListView)findViewById(R.id.listView);
+        spinner = (Spinner)findViewById(R.id.spinner);
+
         editText.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -45,6 +55,20 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        setupListView();
+        setupSpinner();
+    }
+    public void setupListView()
+    {
+        String[] data = new String[]{"black tea","green tea", "1","2","3","4","5"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,data);
+        listView.setAdapter(adapter);
+    }
+    public void setupSpinner()
+    {
+        String[] data = getResources().getStringArray(R.array.storeInfos);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,data);
+        spinner.setAdapter(adapter);
     }
 
     public void submit(View view)
