@@ -24,10 +24,9 @@
         android:id="@+id/button"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:textSize="22dp"
-        android:textColor="#2da879"
+        android:textSize="16dp"
+        android:textColor="#090a0a"
         android:onClick="submit"
-        android:background="@drawable/button"
         android:layout_below="@+id/radioGroup" />
 
     <EditText
@@ -47,19 +46,18 @@
         android:layout_below="@+id/editText">
 
         <RadioButton
-            android:layout_width="111dp"
-            android:layout_height="115dp"
-            android:id="@+id/maleRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/blackteaRadioButton"
             android:checked="true"
-            android:drawableRight="@drawable/boy1"
-            />
+            android:text="black tea" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/femaleRadioButton"
+            android:id="@+id/greenteaRadioButton"
             android:checked="false"
-            android:drawableRight="@drawable/girl1" />
+            android:text="green tea" />
     </RadioGroup>
 
 </RelativeLayout>
