@@ -1,11 +1,15 @@
 package com.example.user.simpleui;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -15,7 +19,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DrinkMenuActivity extends AppCompatActivity {
+public class DrinkMenuActivity extends AppCompatActivity implements DrinkOrderDalog.OnDrinkOrderListener  {
 
     TextView totalTextView;
     ListView drinkMenuListView;
@@ -62,17 +66,37 @@ public class DrinkMenuActivity extends AppCompatActivity {
         DrinkAdapter adapter = new DrinkAdapter(this, drinks);
         drinkMenuListView.setAdapter(adapter);
 
-        drinkMenuListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        drinkMenuListView.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                DrinkAdapter drinkAdapter = (DrinkAdapter)parent.getAdapter();
-                Drink drink = (Drink)drinkAdapter.getItem(position);
+                DrinkAdapter drinkAdapter = (DrinkAdapter) parent.getAdapter();
+                Drink drink = (Drink) drinkAdapter.getItem(position);
                 orders.add(drink);
                 updateTotal();
+                showDrinkDialog(drink);
 
             }
         });
     }
+
+    public void showDrinkDialog(Drink drink)
+    {
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        DrinkOrderDalog dialog = DrinkOrderDalog.newInstance("","'");
+        Fragment prev = getFragmentManager().findFragmentByTag("DrinkOrderDalog");
+        if(prev !=null)
+        {
+            ft.remove(prev);
+
+        }
+
+        ft.addToBackStack(null);
+
+
+        dialog.show(ft,"DrinkOrderDalog");
+    }
+
     public  void  updateTotal()
     {
         int total = 0;
@@ -137,5 +161,10 @@ public class DrinkMenuActivity extends AppCompatActivity {
     {
         super.onRestart();
         Log.d("Debug", "DrinkMenuActivity OnRestart");
+    }
+
+    @Override
+    public void onDrinkOrderFinished() {
+
     }
 }
