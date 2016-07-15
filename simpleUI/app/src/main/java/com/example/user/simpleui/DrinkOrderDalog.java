@@ -41,16 +41,15 @@ public class DrinkOrderDalog extends DialogFragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+
      * @return A new instance of fragment DrinkOrderDalog.
      */
     // TODO: Rename and change types and number of parameters
-    public static DrinkOrderDalog newInstance(String param1, String param2) {
+    public static DrinkOrderDalog newInstance(DrinkOrder drinkOrder) {
         DrinkOrderDalog fragment = new DrinkOrderDalog();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(ARG_PARAM1, drinkOrder.toData());
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -78,6 +77,13 @@ public class DrinkOrderDalog extends DialogFragment {
         if (getArguments() !=null)
         {
             Bundle bundle = getArguments();
+            String data = bundle.getString(ARG_PARAM1);
+            DrinkOrder drinkOrder = DrinkOrder.newInstanceWithData(data);
+            if(drinkOrder == null)
+            {
+                throw new RuntimeException("Instance Drink Order Fail");
+            }
+
         }
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         View contentView = getActivity().getLayoutInflater().inflate(R.layout.fragment_drink_order_dalog,null);
@@ -133,6 +139,6 @@ public class DrinkOrderDalog extends DialogFragment {
 
 
     public interface OnDrinkOrderListener {
-        void onDrinkOrderFinished();
+        void onDrinkOrderFinished(DrinkOrder drinkOrder);
     }
 }
