@@ -4,6 +4,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.jar.JarException;
+
 /**
  * Created by user on 2016/7/13.
  */
@@ -12,6 +14,33 @@ public class Order {
     String menuResults;
     String storeInfo;
 
+    public  String toData()
+    {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("note", note);
+            jsonObject.put("menuResults", menuResults);
+            jsonObject.put("storeInfo", storeInfo);
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
+    }
+
+    public static Order newInstanceWithData(String data)
+    {
+        try{
+            JSONObject jsonObject = new JSONObject(data);
+            Order order = new Order();
+            order.note= jsonObject.getString("note");
+            order.menuResults=jsonObject.getString("menuResults");
+            order.storeInfo=jsonObject.getString("storeInfo");
+            return order;
+        } catch(JSONException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
     public int totalNumber()
     {
         if(menuResults == null || menuResults.equals(""))
