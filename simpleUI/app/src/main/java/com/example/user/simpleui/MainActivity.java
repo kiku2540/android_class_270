@@ -1,7 +1,10 @@
 package com.example.user.simpleui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -127,15 +130,29 @@ public class MainActivity extends AppCompatActivity {
     }
     public void setupListView()
     {
-        Order.getOrdersFromRemote(new FindCallback<Order>() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+
+        FindCallback<Order> callback = new FindCallback<Order>() {
             @Override
             public void done(List<Order> objects, com.parse.ParseException e) {
-                orders = objects;
-                OrderAdapter adapter = new OrderAdapter(MainActivity.this, orders);
-                listView.setAdapter(adapter);
+                if (e == null)
+                {
+                    orders = objects;
+                    OrderAdapter adapter = new OrderAdapter(MainActivity.this, orders);
+                    listView.setAdapter(adapter);
+                }
             }
-        });
+        };
 
+        if(networkInfo == null || !networkInfo.isConnected())
+        {
+            Order.getQuery().fromLocalDatastore().findInBackground(callback);
+        }
+        else
+        {
+            Order.getOrdersFromRemote(callback);
+        }
     }
     public void setupSpinner()
     {
@@ -155,6 +172,9 @@ public class MainActivity extends AppCompatActivity {
         order.setMenuResults(menuResults);
         order.setStoreInfo((String) spinner.getSelectedItem());
         order.saveInBackground();
+
+        order.pinInBackground("Order");
+        order.saveEventually();
 
 
         orders.add(order);
