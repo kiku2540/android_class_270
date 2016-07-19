@@ -87,18 +87,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        String history = Utils.readFile(this,"history");
+     /*   String history = Utils.readFile(this,"history");
         String[] datas=history.split("\n");
         for(String data : datas)
         {
             Order order = Order.newInstanceWithData(data);
             if(order != null)
              orders.add(order);
-        }
+        }*/
         setupListView();
         setupSpinner();
 
-        ParseObject parseObject = new ParseObject("Test");
+      /*  ParseObject parseObject = new ParseObject("Test");
         parseObject.put("foo", "bar");
         parseObject.saveInBackground(new SaveCallback() {
             @Override
@@ -120,15 +120,22 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }
-        });
+        });*/
 
         Log.d("Debug", "DrinkMenuActivity OnCreate");
 
     }
     public void setupListView()
     {
-        OrderAdapter adapter = new OrderAdapter(this, orders);
-        listView.setAdapter(adapter);
+        Order.getOrdersFromRemote(new FindCallback<Order>() {
+            @Override
+            public void done(List<Order> objects, com.parse.ParseException e) {
+                orders = objects;
+                OrderAdapter adapter = new OrderAdapter(MainActivity.this, orders);
+                listView.setAdapter(adapter);
+            }
+        });
+
     }
     public void setupSpinner()
     {
@@ -144,9 +151,10 @@ public class MainActivity extends AppCompatActivity {
         textView.setText(text);
 
         Order order = new Order();
-        order.note = text;
-        order.menuResults = menuResults;
-        order.storeInfo = (String)spinner.getSelectedItem();
+        order.setNote(text);
+        order.setMenuResults(menuResults);
+        order.setStoreInfo((String) spinner.getSelectedItem());
+        order.saveInBackground();
 
 
         orders.add(order);
