@@ -98,7 +98,7 @@ public class DrinkOrderDalog extends DialogFragment {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         View contentView = getActivity().getLayoutInflater().inflate(R.layout.fragment_drink_order_dalog,null);
         alertDialogBuilder.setView(contentView);
-        alertDialogBuilder.setTitle(drinkOrder.drink.name);
+        alertDialogBuilder.setTitle(drinkOrder.drink.getName());
         alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

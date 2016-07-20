@@ -10,6 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.jar.JarException;
 
@@ -103,6 +104,33 @@ public class Order extends ParseObject {
             e.printStackTrace();
         }
         return 0;
+    }
+    public static List<String> getMenuResultsList(String menuResults)
+    {
+        if(menuResults ==null || menuResults.equals(""))
+        {
+            return null;
+        }
+        try{
+            JSONArray jsonArray = new JSONArray(menuResults);
+            List<String>menuResultList = new ArrayList<>();
+            for(int i = 0; i< jsonArray.length();i++)
+            {
+                String data = jsonArray.getString(i);
+                DrinkOrder drinkOrder = DrinkOrder.newInstanceWithData(data);
+                String menuResult = drinkOrder.drink.getName() + "中杯:"+
+                        String.valueOf(drinkOrder.mNumber) + "大杯:"+
+                        String.valueOf(drinkOrder.lNumber);
+
+                menuResultList.add(menuResult);
+            }
+            return menuResultList;
+
+        }catch(JSONException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
     }
     public static void getOrdersFromRemote(final FindCallback<Order> callback)
     {
