@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Order order = (Order)parent.getAdapter().getItem(position);
+                Order order = (Order) parent.getAdapter().getItem(position);
                 goToDetail(order);
             }
         });
@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
     public void goToDetail(Order order)
     {
         Intent intent = new Intent();
-        intent.setClass(this, OrderDrtailActivity.class);
+        intent.setClass(this, OrderDetailActivity.class);
         intent.putExtra("note", order.getNote());
         intent.putExtra("storeInfo", order.getStoreInfo());
         intent.putExtra("menuResults", order.getMenuResults());

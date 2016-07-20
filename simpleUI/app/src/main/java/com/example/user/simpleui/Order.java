@@ -12,7 +12,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.jar.JarException;
 
 /**
  * Created by user on 2016/7/13.
@@ -21,66 +20,63 @@ import java.util.jar.JarException;
 @ParseClassName("Order")
 public class Order extends ParseObject {
 
-
     public String getNote() {
         return getString("note");
     }
 
-    public void setNote(String note)
-    {
-        put("note",note);
+    public void setNote(String note) {
+        put("note", note);
     }
 
-    public void setMenuResults(String menuResults){
-        put("menuResults",menuResults);
+    public void setMenuResults(String menuResults) {
+        put("menuResults", menuResults);
     }
-    public String getMenuResults(){
-        String menuResults =  getString("menuResults");
+
+    public String getMenuResults() {
+        String menuResults = getString("menuResults");
         if(menuResults == null)
         {
-            return"";
+            return "";
         }
-        return  menuResults;
+        return menuResults;
     }
 
-    public void setStoreInfo(String storeInfo){
-        put("storeInfo",storeInfo);
+    public void setStoreInfo(String storeInfo) {
+        put("storeInfo", storeInfo);
     }
 
-    public String getStoreInfo(){
+    public String getStoreInfo() {
         return getString("storeInfo");
-
     }
 
-
-
-    public  String toData()
+    public String toData()
     {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("note", getNote());
             jsonObject.put("menuResults", getMenuResults());
             jsonObject.put("storeInfo", getStoreInfo());
-        }catch (JSONException e){
+        } catch (JSONException e) {
             e.printStackTrace();
         }
-        return jsonObject.toString();
+        return  jsonObject.toString();
     }
 
     public static Order newInstanceWithData(String data)
     {
-        try{
+        try {
             JSONObject jsonObject = new JSONObject(data);
             Order order = new Order();
             order.setNote(jsonObject.getString("note"));
             order.setMenuResults(jsonObject.getString("menuResults"));
             order.setStoreInfo(jsonObject.getString("storeInfo"));
             return order;
-        } catch(JSONException e){
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         return null;
     }
+
 
     public int totalNumber()
     {
@@ -88,50 +84,52 @@ public class Order extends ParseObject {
         {
             return 0;
         }
-        try{
+
+        try {
             JSONArray jsonArray = new JSONArray(getMenuResults());
-            int totalNumber = 0 ;
-            for(int i = 0; i< jsonArray.length();i++)
+            int totalNumber = 0;
+            for (int i = 0; i < jsonArray.length() ; i++)
             {
                 String data = jsonArray.getString(i);
                 DrinkOrder drinkOrder = DrinkOrder.newInstanceWithData(data);
-                totalNumber += drinkOrder.lNumber+drinkOrder.mNumber;
+                totalNumber += drinkOrder.lNumber + drinkOrder.mNumber;
             }
             return totalNumber;
-
-        }catch(JSONException e)
-        {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
+
         return 0;
     }
-    public static List<String> getMenuResultsList(String menuResults)
+
+    public static List<String> getMenuResultList(String menuResults)
     {
-        if(menuResults ==null || menuResults.equals(""))
+        if(menuResults == null || menuResults.equals(""))
         {
             return null;
         }
-        try{
+
+        try {
             JSONArray jsonArray = new JSONArray(menuResults);
-            List<String>menuResultList = new ArrayList<>();
-            for(int i = 0; i< jsonArray.length();i++)
+            List<String> meneResultList = new ArrayList<>();
+            for (int i = 0; i < jsonArray.length() ; i++)
             {
                 String data = jsonArray.getString(i);
                 DrinkOrder drinkOrder = DrinkOrder.newInstanceWithData(data);
-                String menuResult = drinkOrder.drink.getName() + "中杯:"+
-                        String.valueOf(drinkOrder.mNumber) + "大杯:"+
+                String menuResult = drinkOrder.drink.getName() + " 中杯: " +
+                        String.valueOf(drinkOrder.mNumber) + " 大杯:" +
                         String.valueOf(drinkOrder.lNumber);
 
-                menuResultList.add(menuResult);
+                meneResultList.add(menuResult);
             }
-            return menuResultList;
-
-        }catch(JSONException e)
-        {
+            return meneResultList;
+        } catch (JSONException e) {
             e.printStackTrace();
         }
+
         return null;
     }
+
     public static void getOrdersFromRemote(final FindCallback<Order> callback)
     {
         getQuery().findInBackground(new FindCallback<Order>() {
@@ -140,6 +138,7 @@ public class Order extends ParseObject {
                 if(e == null)
                 {
                     Order.pinAllInBackground("Order", objects);
+                    callback.done(objects, e);
                 }
                 else
                 {
@@ -148,10 +147,9 @@ public class Order extends ParseObject {
             }
         });
     }
+
     public static ParseQuery<Order> getQuery()
     {
         return ParseQuery.getQuery(Order.class);
     }
-
-
 }
