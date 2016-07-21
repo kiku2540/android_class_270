@@ -21,12 +21,12 @@ import android.widget.RadioGroup;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link DrinkOrderDialog.OnDrinkOrderListener} interface
+ * {@link DrinkOrderDalog.OnDrinkOrderListener} interface
  * to handle interaction events.
- * Use the {@link DrinkOrderDialog#newInstance} factory method to
+ * Use the {@link DrinkOrderDalog#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DrinkOrderDialog extends DialogFragment {
+public class DrinkOrderDalog extends DialogFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -44,7 +44,7 @@ public class DrinkOrderDialog extends DialogFragment {
 
     private OnDrinkOrderListener mListener;
 
-    public DrinkOrderDialog() {
+    public DrinkOrderDalog() {
         // Required empty public constructor
     }
 
@@ -55,8 +55,8 @@ public class DrinkOrderDialog extends DialogFragment {
      * @return A new instance of fragment DrinkOrderDialog.
      */
     // TODO: Rename and change types and number of parameters
-    public static DrinkOrderDialog newInstance(DrinkOrder drinkOrder) {
-        DrinkOrderDialog fragment = new DrinkOrderDialog();
+    public static DrinkOrderDalog newInstance(DrinkOrder drinkOrder) {
+        DrinkOrderDalog fragment = new DrinkOrderDalog();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, drinkOrder.toData());
 
